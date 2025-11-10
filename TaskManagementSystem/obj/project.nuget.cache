@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "VGGKB6kTNRU=",
+  "success": true,
+  "projectFilePath": "/Users/antonaleynichenko/Documents/TaskManagementSystem/TaskManagementSystem/TaskManagementSystem.csproj",
+  "expectedPackageFiles": [
+    "/Users/antonaleynichenko/.nuget/packages/microsoft.aspnetcore.openapi/9.0.9/microsoft.aspnetcore.openapi.9.0.9.nupkg.sha512",
+    "/Users/antonaleynichenko/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
