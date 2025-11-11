@@ -2,27 +2,11 @@
 
 Система управления задачами с JWT аутентификацией, WebSocket уведомлениями и Swagger документацией.
 
-## Возможности
-
-- ✅ CRUD операции для задач
-- ✅ Фильтрация задач по статусу (New, InProgress, Completed)
-- ✅ Назначение задач пользователям
-- ✅ WebSocket уведомления о статусе задач
-- ✅ JWT аутентификация с refresh токенами
-- ✅ Swagger документация API
-
-## Запуск через Docker
-
-### Требования
-
-- Docker
-- Docker Compose
-
 ### Быстрый старт
 
 1. Клонируйте репозиторий:
 ```bash
-git clone <repository-url>
+git clone https://github.com/Antongo22/TaskManagementSystem
 cd TaskManagementSystem
 ```
 
