@@ -10,4 +10,3 @@ public class UpdateTaskDto
     public TaskStatus? Status { get; set; }
     public int? AssignedToUserId { get; set; }
 }
-

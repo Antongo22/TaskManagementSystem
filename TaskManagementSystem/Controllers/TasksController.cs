@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Text.Json;
 using TaskManagementSystem.DTO;
 using TaskManagementSystem.Models;
 using TaskManagementSystem.Services;
@@ -54,13 +55,39 @@ public class TasksController : ControllerBase
     }
 
     [HttpPatch("{id}")]
-    public async Task<ActionResult<TaskDto>> UpdateTask(int id, [FromBody] UpdateTaskDto updateTaskDto)
+    public async Task<ActionResult<TaskDto>> UpdateTask(int id, [FromBody] JsonElement jsonBody)
     {
         try
         {
             var userId = GetCurrentUserId();
-            var task = await _taskService.UpdateTaskAsync(id, updateTaskDto, userId);
+            
+            // Читаем сырой JSON для проверки наличия поля
+            var jsonText = jsonBody.GetRawText();
+            
+            // Проверяем, присутствует ли поле assignedToUserId в JSON (даже если оно null)
+            // Проверяем оба варианта: camelCase и PascalCase
+            var assignedToUserIdSpecified = jsonText.Contains("\"assignedToUserId\"", StringComparison.OrdinalIgnoreCase)
+                || jsonText.Contains("\"AssignedToUserId\"", StringComparison.OrdinalIgnoreCase);
+            
+            // Десериализуем DTO из JSON
+            var jsonOptions = new JsonSerializerOptions 
+            { 
+                PropertyNameCaseInsensitive = true
+            };
+            
+            var updateTaskDto = JsonSerializer.Deserialize<UpdateTaskDto>(jsonText, jsonOptions);
+            
+            if (updateTaskDto == null)
+            {
+                return BadRequest(new { message = "Invalid request body" });
+            }
+            
+            var task = await _taskService.UpdateTaskAsync(id, updateTaskDto, userId, assignedToUserIdSpecified);
             return Ok(task);
+        }
+        catch (JsonException ex)
+        {
+            return BadRequest(new { message = $"Invalid JSON: {ex.Message}" });
         }
         catch (Exception ex)
         {

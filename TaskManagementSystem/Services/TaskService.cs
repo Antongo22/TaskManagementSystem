@@ -76,7 +76,7 @@ public class TaskService : ITaskService
         return task == null ? null : MapToDto(task);
     }
 
-    public async System.Threading.Tasks.Task<TaskDto> UpdateTaskAsync(int id, UpdateTaskDto updateTaskDto, int userId)
+    public async System.Threading.Tasks.Task<TaskDto> UpdateTaskAsync(int id, UpdateTaskDto updateTaskDto, int userId, bool assignedToUserIdSpecified = false)
     {
         var task = await _context.Tasks
             .Include(t => t.AssignedToUser)
@@ -96,15 +96,29 @@ public class TaskService : ITaskService
             task.Description = updateTaskDto.Description;
         if (updateTaskDto.Status.HasValue)
             task.Status = updateTaskDto.Status.Value;
-        // Обновляем назначение: если передано значение (включая null), обновляем
-        if (updateTaskDto.AssignedToUserId.HasValue)
+        
+        // Обновляем назначение только если поле было явно передано в запросе
+        if (assignedToUserIdSpecified)
         {
-            task.AssignedToUserId = updateTaskDto.AssignedToUserId;
+            // Если поле было передано, обновляем назначение (даже если значение null)
+            // Это позволяет снять назначение, установив значение в null
+            var oldAssignedToUserId = task.AssignedToUserId;
+            
+            // Если передан null, снимаем назначение
+            if (updateTaskDto.AssignedToUserId == null)
+            {
+                task.AssignedToUserId = null;
+            }
+            else
+            {
+                task.AssignedToUserId = updateTaskDto.AssignedToUserId;
+            }
+            
+            Console.WriteLine($"TaskService - Updating AssignedToUserId from {oldAssignedToUserId} to {task.AssignedToUserId} (specified: {assignedToUserIdSpecified})");
         }
-        else if (updateTaskDto.AssignedToUserId == null)
+        else
         {
-            // Явно снимаем назначение, если передан null
-            task.AssignedToUserId = null;
+            Console.WriteLine($"TaskService - AssignedToUserId not specified in request, keeping current value: {task.AssignedToUserId}");
         }
 
         task.UpdatedAt = DateTime.UtcNow;

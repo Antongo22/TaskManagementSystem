@@ -13,6 +13,11 @@ class ApiClient {
       headers: {
         'Content-Type': 'application/json',
       },
+      // Убеждаемся, что null значения сериализуются в JSON
+      transformRequest: [(data) => {
+        // Используем JSON.stringify для правильной сериализации null значений
+        return JSON.stringify(data);
+      }],
     });
 
     this.setupInterceptors();
