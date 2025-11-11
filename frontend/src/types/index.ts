@@ -9,6 +9,11 @@ export interface User {
   username: string;
 }
 
+export interface UserDto {
+  id: number;
+  username: string;
+}
+
 export interface Task {
   id: number;
   title: string;
@@ -50,13 +55,13 @@ export interface AuthResponse {
 export interface CreateTaskDto {
   title: string;
   description: string;
-  assignedToUserId?: number;
+  assignedToUserId?: number | null;
 }
 
 export interface UpdateTaskDto {
   title?: string;
   description?: string;
   status?: TaskStatus;
-  assignedToUserId?: number;
+  assignedToUserId?: number | null;
 }
 

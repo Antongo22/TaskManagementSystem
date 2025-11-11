@@ -7,8 +7,9 @@ class ApiClient {
   private client: AxiosInstance;
 
   constructor() {
+    // Если API_URL не задан, используем относительные пути (работает через Nginx proxy)
     this.client = axios.create({
-      baseURL: API_URL,
+      baseURL: API_URL || '',
       headers: {
         'Content-Type': 'application/json',
       },

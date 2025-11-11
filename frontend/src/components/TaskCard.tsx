@@ -21,8 +21,13 @@ const statusLabels = {
 };
 
 export const TaskCard = ({ task, onEdit, onDelete, onStatusChange }: TaskCardProps) => {
+  const isUnassigned = !task.assignedToUserId;
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+    <div className={`rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow ${
+      isUnassigned 
+        ? 'bg-red-50 border-2 border-red-300' 
+        : 'bg-white'
+    }`}>
       <div className="flex justify-between items-start mb-4">
         <h3 className="text-xl font-semibold text-gray-800">{task.title}</h3>
         <span className={`px-3 py-1 rounded-full text-sm font-medium ${statusColors[task.status]}`}>
@@ -32,8 +37,10 @@ export const TaskCard = ({ task, onEdit, onDelete, onStatusChange }: TaskCardPro
       <p className="text-gray-600 mb-4">{task.description}</p>
       <div className="flex flex-wrap gap-2 mb-4 text-sm text-gray-500">
         <span>Создано: {format(new Date(task.createdAt), 'dd MMM yyyy')}</span>
-        {task.assignedToUsername && (
+        {task.assignedToUsername ? (
           <span>• Назначено: {task.assignedToUsername}</span>
+        ) : (
+          <span className="text-red-600 font-medium">• Не назначена</span>
         )}
       </div>
       <div className="flex gap-2">

@@ -21,9 +21,13 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto)
     {
-        if (await _context.Users.AnyAsync(u => u.Username == registerDto.Username))
+        // Проверка на дубликаты username (регистронезависимая)
+        var usernameExists = await _context.Users
+            .AnyAsync(u => u.Username.ToLower() == registerDto.Username.ToLower());
+        
+        if (usernameExists)
         {
-            throw new Exception("Username already exists");
+            throw new Exception("Пользователь с таким именем уже существует");
         }
 
         var user = new User

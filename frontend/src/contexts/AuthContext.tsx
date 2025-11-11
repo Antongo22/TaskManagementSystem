@@ -41,7 +41,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setIsAuthenticated(true);
       toast.success('Регистрация успешна!');
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Ошибка регистрации');
+      const errorMessage = error.response?.data?.message || 'Ошибка регистрации';
+      toast.error(errorMessage);
       throw error;
     }
   };

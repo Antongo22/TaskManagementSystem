@@ -22,6 +22,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id);
+            // Уникальный индекс для Username (регистронезависимый через проверку в сервисе)
             entity.HasIndex(e => e.Username).IsUnique();
         });
 

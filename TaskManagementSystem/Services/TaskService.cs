@@ -96,8 +96,16 @@ public class TaskService : ITaskService
             task.Description = updateTaskDto.Description;
         if (updateTaskDto.Status.HasValue)
             task.Status = updateTaskDto.Status.Value;
+        // Обновляем назначение: если передано значение (включая null), обновляем
         if (updateTaskDto.AssignedToUserId.HasValue)
+        {
             task.AssignedToUserId = updateTaskDto.AssignedToUserId;
+        }
+        else if (updateTaskDto.AssignedToUserId == null)
+        {
+            // Явно снимаем назначение, если передан null
+            task.AssignedToUserId = null;
+        }
 
         task.UpdatedAt = DateTime.UtcNow;
 
