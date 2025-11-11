@@ -23,7 +23,6 @@ public class AppDbContext : DbContext
         {
             entity.HasKey(e => e.Id);
             entity.HasIndex(e => e.Username).IsUnique();
-            entity.HasIndex(e => e.Email).IsUnique();
         });
 
         modelBuilder.Entity<Task>(entity =>

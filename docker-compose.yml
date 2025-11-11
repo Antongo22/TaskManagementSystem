@@ -6,12 +6,24 @@ services:
     container_name: task-management-api
     ports:
       - "8080:8080"
-      - "8081:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:8080
     volumes:
       - ./data:/app/data
+    restart: unless-stopped
+    networks:
+      - taskmanagement-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: task-management-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - taskmanagement
     restart: unless-stopped
     networks:
       - taskmanagement-network

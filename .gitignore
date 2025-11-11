@@ -382,3 +382,11 @@ FodyWeavers.xsd
 # Docker data directory
 data/
 
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.vite/
+frontend/.env.local
+frontend/.env.*.local
+

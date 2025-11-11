@@ -26,15 +26,9 @@ public class AuthService : IAuthService
             throw new Exception("Username already exists");
         }
 
-        if (await _context.Users.AnyAsync(u => u.Email == registerDto.Email))
-        {
-            throw new Exception("Email already exists");
-        }
-
         var user = new User
         {
             Username = registerDto.Username,
-            Email = registerDto.Email,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password)
         };
 
