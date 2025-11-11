@@ -1,0 +1,60 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.sln.docstates
+
+# Build results
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+*.dll
+*.exe
+*.pdb
+
+# Test results
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+
+# NuGet
+*.nupkg
+packages/
+.nuget/
+
+# Logs
+*.log
+logs/
+
+# Database files (will be created in container)
+*.db
+*.db-shm
+*.db-wal
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation
+*.md
+!README.md
+
+# Misc
+*.cache
+*.tmp
+*.swp
+*~
+

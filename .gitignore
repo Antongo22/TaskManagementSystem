@@ -379,3 +379,6 @@ FodyWeavers.xsd
 *.db-shm
 *.db-wal
 
+# Docker data directory
+data/
+
