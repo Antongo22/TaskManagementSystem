@@ -40,36 +40,36 @@ export const TaskForm = ({ task, users, onSubmit, onCancel }: TaskFormProps) => 
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4">{task ? 'Редактировать задачу' : 'Новая задача'}</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">{task ? 'Редактировать задачу' : 'Новая задача'}</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Название</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Название</label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Описание</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Описание</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Назначить пользователю</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Назначить пользователю</label>
             <select
               value={assignedToUserId || ''}
               onChange={(e) => setAssignedToUserId(e.target.value ? Number(e.target.value) : undefined)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             >
               <option value="">Не назначено</option>
               {users.map((user) => (
@@ -81,11 +81,11 @@ export const TaskForm = ({ task, users, onSubmit, onCancel }: TaskFormProps) => 
           </div>
           {task && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Статус</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Статус</label>
               <select
                 value={status}
                 onChange={(e) => setStatus(Number(e.target.value) as TaskStatus)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value={TaskStatus.New}>Новая</option>
                 <option value={TaskStatus.InProgress}>В работе</option>
@@ -96,14 +96,14 @@ export const TaskForm = ({ task, users, onSubmit, onCancel }: TaskFormProps) => 
           <div className="flex gap-2">
             <button
               type="submit"
-              className="flex-1 bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors"
+              className="flex-1 bg-indigo-600 dark:bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors"
             >
               {task ? 'Сохранить' : 'Создать'}
             </button>
             <button
               type="button"
               onClick={onCancel}
-              className="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors"
+              className="flex-1 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 py-2 px-4 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors"
             >
               Отмена
             </button>
