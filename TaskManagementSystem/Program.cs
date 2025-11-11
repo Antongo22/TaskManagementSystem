@@ -10,11 +10,11 @@ using TaskManagementSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
+// Services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// Swagger configuration with JWT
+// Swagger
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
