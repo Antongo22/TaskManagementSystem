@@ -370,8 +370,12 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
-# JetBrains Rider
+# JetBrains Rider / IntelliJ IDEA
 .idea/
+**/.idea/
+**/.idea/**
+.idea.*/
+*.iml
 *.sln.iml
 
 # Database files
