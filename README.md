@@ -125,3 +125,26 @@ TaskManagementSystem/
 - SignalR (WebSocket)
 - Swagger/OpenAPI
 
+
+---
+# Демонстрация Работы
+
+
+## Вход и Регистрация
+<img width="511" height="436" alt="image" src="https://github.com/user-attachments/assets/99cb1496-4b12-4495-8552-70cdfc709276" />
+
+
+## Демонстрация общей доски
+<img width="2113" height="1148" alt="image" src="https://github.com/user-attachments/assets/d2b0cf25-6be9-4dde-b77b-e9dbd31c5100" />
+<img width="853" height="384" alt="image" src="https://github.com/user-attachments/assets/32dc9326-daf0-435b-b0c0-17befdc03380" />
+
+
+
+
+## Созданиче задачи
+<img width="503" height="519" alt="image" src="https://github.com/user-attachments/assets/c5c79272-a484-4e0a-a5c3-390375bc06e4" />
+
+
+## Список пользователей
+<img width="1255" height="427" alt="image" src="https://github.com/user-attachments/assets/22a97764-1a43-4ada-9b58-26a8f593a58e" />
+
