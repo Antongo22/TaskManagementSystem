@@ -6,5 +6,8 @@ export const userService = {
     const response = await apiClient.get<UserDto[]>('/api/users');
     return response.data;
   },
+  deleteUser: async (id: number): Promise<void> => {
+    await apiClient.delete(`/api/users/${id}`);
+  },
 };
 

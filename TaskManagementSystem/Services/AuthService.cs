@@ -21,6 +21,19 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto)
     {
+        // Проверка кода приглашения
+        var invitationCode = _configuration["AppSettings:InvitationCode"];
+        if (string.IsNullOrEmpty(invitationCode))
+        {
+            throw new Exception("Код приглашения не настроен в системе");
+        }
+        
+        if (string.IsNullOrEmpty(registerDto.InvitationCode) || 
+            registerDto.InvitationCode != invitationCode)
+        {
+            throw new Exception("Неверный код приглашения");
+        }
+
         // Проверка на дубликаты username (регистронезависимая)
         var usernameExists = await _context.Users
             .AnyAsync(u => u.Username.ToLower() == registerDto.Username.ToLower());
@@ -28,6 +41,16 @@ public class AuthService : IAuthService
         if (usernameExists)
         {
             throw new Exception("Пользователь с таким именем уже существует");
+        }
+
+        // Определение админа: первый пользователь или из конфигурации
+        var isFirstUser = !await _context.Users.AnyAsync();
+        var adminUserIdConfig = _configuration["AppSettings:AdminUserId"];
+        int? adminUserId = null;
+        
+        if (!string.IsNullOrEmpty(adminUserIdConfig) && int.TryParse(adminUserIdConfig, out var parsedAdminId))
+        {
+            adminUserId = parsedAdminId;
         }
 
         var user = new User
@@ -38,6 +61,10 @@ public class AuthService : IAuthService
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
+
+        // Если это первый пользователь и админ не указан в конфигурации, 
+        // то первый пользователь автоматически становится админом
+        // (логика админа может быть реализована позже через отдельное поле или сервис)
 
         return await GenerateTokensAsync(user);
     }

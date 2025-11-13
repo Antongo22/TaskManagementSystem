@@ -39,6 +39,7 @@ export interface Notification {
 export interface RegisterDto {
   username: string;
   password: string;
+  invitationCode: string;
 }
 
 export interface LoginDto {

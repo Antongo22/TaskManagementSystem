@@ -5,6 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 export const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [invitationCode, setInvitationCode] = useState('');
     const [loading, setLoading] = useState(false);
     const { register } = useAuth();
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ export const Register = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            await register({ username, password });
+            await register({ username, password, invitationCode });
             navigate('/');
         } catch (error) {
             // Error handled in context
@@ -51,6 +52,19 @@ export const Register = () => {
               required
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               placeholder="Введите пароль"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Код приглашения
+            </label>
+            <input
+              type="text"
+              value={invitationCode}
+              onChange={(e) => setInvitationCode(e.target.value)}
+              required
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              placeholder="Введите код приглашения"
             />
           </div>
           <button

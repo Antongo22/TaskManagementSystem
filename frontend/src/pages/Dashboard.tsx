@@ -8,6 +8,7 @@ import { TaskForm } from '../components/TaskForm';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { useSignalR } from '../hooks/useSignalR';
+import { getCurrentUserId, isAdmin } from '../utils/jwt';
 import toast from 'react-hot-toast';
 
 type TabType = 'tasks' | 'users';
@@ -60,6 +61,14 @@ export const Dashboard = () => {
     },
   });
 
+  const deleteUserMutation = useMutation({
+    mutationFn: (id: number) => userService.deleteUser(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+      toast.success('Пользователь удален');
+    },
+  });
+
   useSignalR(() => {
     queryClient.invalidateQueries({ queryKey: ['notifications'] });
   });
@@ -78,6 +87,15 @@ export const Dashboard = () => {
   const handleStatusChange = (id: number, status: TaskStatus) => {
     updateMutation.mutate({ id, data: { status } });
   };
+
+  const handleDeleteUser = (id: number) => {
+    if (window.confirm('Вы уверены, что хотите удалить этого пользователя?')) {
+      deleteUserMutation.mutate(id);
+    }
+  };
+
+  const currentUserId = getCurrentUserId();
+  const userIsAdmin = isAdmin(currentUserId);
 
   const handleFormSubmit = async (data: CreateTaskDto | UpdateTaskDto) => {
     if (editingTask) {
@@ -240,16 +258,29 @@ export const Dashboard = () => {
                       key={user.id}
                       className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-md dark:hover:bg-gray-700 transition-all bg-white dark:bg-gray-800"
                     >
-                      <div className="flex items-center">
-                        <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center mr-3">
-                          <span className="text-indigo-600 dark:text-indigo-300 font-semibold text-lg">
-                            {user.username.charAt(0).toUpperCase()}
-                          </span>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center flex-1">
+                          <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center mr-3">
+                            <span className="text-indigo-600 dark:text-indigo-300 font-semibold text-lg">
+                              {user.username.charAt(0).toUpperCase()}
+                            </span>
+                          </div>
+                          <div>
+                            <h3 className="font-medium text-gray-900 dark:text-white">{user.username}</h3>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">ID: {user.id}</p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-medium text-gray-900 dark:text-white">{user.username}</h3>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">ID: {user.id}</p>
-                        </div>
+                        {userIsAdmin && user.id !== currentUserId && (
+                          <button
+                            onClick={() => handleDeleteUser(user.id)}
+                            className="ml-2 p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                            title="Удалить пользователя"
+                          >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}
